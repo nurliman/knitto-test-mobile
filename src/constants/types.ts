@@ -41,6 +41,14 @@ export type KaryawanActionsTypes =
   | SetKaryawanListRequest
   | SetFilterDateRequest;
 
+export function setKaryawanList(
+  karyawanList: KaryawanList
+): KaryawanActionsTypes {
+  return {
+    type: SET_KARYAWAN_LIST,
+    payload: { karyawanList },
+  };
+}
 export interface IAppState {
   karyawan: IKaryawanState;
 }

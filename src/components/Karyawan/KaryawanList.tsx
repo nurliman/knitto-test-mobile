@@ -1,17 +1,32 @@
 import React from "react";
-import { FlatList, ListRenderItem } from "react-native";
+import {
+  FlatList,
+  ListRenderItem,
+  RefreshControl,
+  RefreshControlProps,
+} from "react-native";
 
-import { IKaryawan, KaryawanList as KaryawanListType } from "../../constants/types";
+import {
+  IKaryawan,
+  KaryawanList as KaryawanListType,
+} from "../../constants/types";
 import KaryawanListItem from "./KaryawanListItem";
 
-const KaryawanList: React.FC<{ karyawanList: KaryawanListType }> = ({
-  karyawanList,
-}) => {
+const KaryawanList: React.FC<{
+  karyawanList: KaryawanListType;
+  refreshControl: React.ReactElement<RefreshControlProps, string>;
+}> = ({ karyawanList, children, refreshControl }) => {
   const renderItem: ListRenderItem<IKaryawan> = ({ item }) => (
     <KaryawanListItem karyawan={item} />
   );
 
-  return <FlatList data={karyawanList} renderItem={renderItem} />;
+  return (
+    <FlatList
+      refreshControl={refreshControl}
+      data={karyawanList}
+      renderItem={renderItem}
+    />
+  );
 };
 
 export default KaryawanList;
