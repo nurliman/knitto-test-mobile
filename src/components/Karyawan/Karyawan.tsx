@@ -31,7 +31,7 @@ const Karyawan: React.FC = () => {
   useLayoutEffect(handleFetchKaryawan, []);
 
   return (
-    <View style={{ flex: 1}}>
+    <View style={{ flex: 1,backgroundColor:'#fff'}}>
       <KaryawanList
         karyawanList={state.karyawan.data}
         refreshControl={refreshControl}

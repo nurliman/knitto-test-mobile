@@ -26,6 +26,7 @@ const KaryawanList: React.FC<{
       refreshControl={refreshControl}
       data={karyawanList}
       renderItem={renderItem}
+      keyExtractor = {(item, index) => 'list-item-'+item.id}
     />
   );
 };

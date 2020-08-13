@@ -1,24 +1,46 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { View, Text,TouchableOpacity, StyleSheet } from "react-native";
+import { Entypo, Foundation as Avatar } from "@expo/vector-icons";
 
 import { IKaryawan } from "../../constants/types";
 
 
+
 const KaryawanListItem: React.FC<{ karyawan: IKaryawan }> = ({ karyawan }) => {
   return (
-    <View style={styles.container} key={karyawan.id}>
-    <View>
-    <Text style={styles.name}>{karyawan.nama.toUpperCase()}</Text>
-    <Text style={styles.jabatan}>{karyawan.jabatan}</Text>
-    <Text>{new Date(karyawan.tanggal_masuk).toLocaleDateString()}</Text>
+    <TouchableOpacity activeOpacity={.75}>
+    <View style={styles.container}>
+      <View style={{...styles.avatar,backgroundColor:randomColor()}}>
+        <Avatar name="torso-business" size={50} color="white" />
+      </View>
+      <View>
+        <Text style={styles.name}>{karyawan.nama}</Text>
+        <Text style={styles.jabatan}>{karyawan.jabatan}</Text>
+        <Text style={styles.tanggal_masuk}>
+          Joined {new Date(karyawan.tanggal_masuk).toLocaleDateString()}
+        </Text>
+      </View>
+      <Entypo style={styles.chevron} name="chevron-right" size={25} />
     </View>
-    <Ionicons.Button name="ellipsis-vertical" />
-    </View>
+    </TouchableOpacity>
   );
 };
 
 export default KaryawanListItem;
+
+const AVATAR_COLOURS = [
+  "#55efc4",
+  "#74b9ff",
+  "#ffeaa7",
+  "#fab1a0",
+  "#ff7675",
+  "#fd79a8",
+  '#b2bec3'
+];
+
+const randomColor=()=> {
+  return AVATAR_COLOURS[Math.floor(Math.random() * AVATAR_COLOURS.length)];
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -26,32 +48,44 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "90%",
     backgroundColor: "#fff",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginHorizontal: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 12,
+    marginHorizontal: 12,
     marginBottom: 8,
     borderRadius: 5,
-    flexDirection:'row',
+    flexDirection: "row",
 
-    // Shadow
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    borderWidth: 2,
+    borderColor: "#dfe6e9",
+  },
 
-    elevation: 3,
+  avatar: {
+    justifyContent: "center",
+    paddingHorizontal: 12,
+    borderRadius: 5,
+    marginRight: 14,
   },
 
   name: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 18,
+    color: "#2d3436",
+    fontFamily: "Quicksand-Bold",
   },
 
   jabatan: {
-    fontSize: 16,
-    fontWeight: "500",
+    fontSize: 15,
+    color: "#636e72",
+    fontFamily: "Quicksand-Medium",
+  },
+
+  tanggal_masuk: {
+    color: "#00b894",
+    fontFamily: "Quicksand-SemiBold",
+  },
+
+  chevron: {
+    alignSelf: "center",
+    marginLeft: "auto",
+    color: "#b2bec3",
   },
 });
