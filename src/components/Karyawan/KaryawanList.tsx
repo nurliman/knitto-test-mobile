@@ -22,6 +22,7 @@ const KaryawanList: React.FC<{
 
   return (
     <FlatList
+    style={{flex:1}}
       refreshControl={refreshControl}
       data={karyawanList}
       renderItem={renderItem}
