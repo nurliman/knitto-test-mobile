@@ -49,6 +49,31 @@ export function setKaryawanList(
     payload: { karyawanList },
   };
 }
+
 export interface IAppState {
   karyawan: IKaryawanState;
 }
+
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
+
+export type KaryawanStackParamList = {
+  edit: {
+    karyawanId: number;
+  };
+  list: undefined;
+};
+
+type EditScreenNavigationProp = StackNavigationProp<
+  KaryawanStackParamList,
+  "edit"
+>;
+
+type EditScreenRouteProp = RouteProp<KaryawanStackParamList, "edit">;
+
+type Props = {
+  navigation: EditScreenNavigationProp;
+  route: EditScreenRouteProp;
+};
+
+

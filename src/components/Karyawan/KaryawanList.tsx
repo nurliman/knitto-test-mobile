@@ -16,8 +16,9 @@ const KaryawanList: React.FC<{
   karyawanList: KaryawanListType;
   refreshControl: React.ReactElement<RefreshControlProps, string>;
 }> = ({ karyawanList, children, refreshControl }) => {
-  const renderItem: ListRenderItem<IKaryawan> = ({ item }) => (
-    <KaryawanListItem karyawan={item} />
+
+  const renderItem: ListRenderItem<IKaryawan> = ({ item,index }) => (
+    <KaryawanListItem index={index} karyawan={item} />
   );
 
   return (

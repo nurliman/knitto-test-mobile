@@ -1,16 +1,25 @@
 import React from "react";
-import { View, Text,TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, GestureResponderHandlers } from "react-native";
 import { Entypo, Foundation as Avatar } from "@expo/vector-icons";
 
 import { IKaryawan } from "../../constants/types";
 
+const KaryawanListItem: React.FC<{ karyawan: IKaryawan; index: number }> = ({
+  karyawan,
+  index,
+  
+}) => {
 
+  const handlePress =(e:GestureResponderHandlers)=>{
 
-const KaryawanListItem: React.FC<{ karyawan: IKaryawan }> = ({ karyawan }) => {
+  }
+  
   return (
-    <TouchableOpacity activeOpacity={.75}>
-    <View style={styles.container}>
-      <View style={{...styles.avatar,backgroundColor:randomColor()}}>
+    <TouchableOpacity
+      style={{ ...styles.container, marginTop: paddingTop(index) }}
+      activeOpacity={0.75}
+    >
+      <View style={{ ...styles.avatar, backgroundColor: randomColor() }}>
         <Avatar name="torso-business" size={50} color="white" />
       </View>
       <View>
@@ -21,7 +30,6 @@ const KaryawanListItem: React.FC<{ karyawan: IKaryawan }> = ({ karyawan }) => {
         </Text>
       </View>
       <Entypo style={styles.chevron} name="chevron-right" size={25} />
-    </View>
     </TouchableOpacity>
   );
 };
@@ -35,12 +43,15 @@ const AVATAR_COLOURS = [
   "#fab1a0",
   "#ff7675",
   "#fd79a8",
-  '#b2bec3'
+  "#b2bec3",
 ];
 
-const randomColor=()=> {
+const randomColor = () => {
   return AVATAR_COLOURS[Math.floor(Math.random() * AVATAR_COLOURS.length)];
-}
+};
+
+const paddingTop = (index:number) => (index === 0 ? 15 : 0);
+
 
 const styles = StyleSheet.create({
   container: {
@@ -51,7 +62,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 12,
     marginHorizontal: 12,
-    marginBottom: 8,
+    marginBottom: 12,
     borderRadius: 5,
     flexDirection: "row",
 
