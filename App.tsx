@@ -4,16 +4,13 @@ import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { KaryawanStackParamList } from "./src/constants/types";
+import { RootStackParamList } from "./src/constants/types";
 
 import { AppProvider } from "./src/store";
 import Karyawan from "./src/components/Karyawan";
 import KaryawanEdit from "./src/components/Karyawan/KaryawanEdit";
 
-
-
-
-const KaryawanStack = createStackNavigator<KaryawanStackParamList>();
+const rootStack = createStackNavigator<RootStackParamList>();
 
 const App: React.FC = () => {
   let [fontsLoaded] = useFonts({
@@ -30,18 +27,18 @@ const App: React.FC = () => {
     return (
       <AppProvider>
         <NavigationContainer>
-          <KaryawanStack.Navigator>
-            <KaryawanStack.Screen
-              name="list"
+          <rootStack.Navigator>
+            <rootStack.Screen
+              name="KaryawanList"
               component={Karyawan}
               options={{ title: "Karyawan" }}
             />
-            <KaryawanStack.Screen
-              name="edit"
+            <rootStack.Screen
+              name="KaryawanEdit"
               component={KaryawanEdit}
               options={{ title: "Edit Karyawan" }}
             />
-          </KaryawanStack.Navigator>
+          </rootStack.Navigator>
         </NavigationContainer>
       </AppProvider>
     );

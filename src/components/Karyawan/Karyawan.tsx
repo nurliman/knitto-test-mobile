@@ -4,7 +4,7 @@ import React, {
   useState,
   useCallback,
 } from "react";
-import { View, RefreshControl } from "react-native";
+import { View, RefreshControl,Alert } from "react-native";
 
 import { AppContext } from "../../store";
 import { setKaryawanList } from "../../constants/types";
@@ -19,7 +19,7 @@ const Karyawan: React.FC = () => {
     setLoading(true);
     fetchKaryawan(state.karyawan.filter)
       .then((data) => dispatch(setKaryawanList(data)))
-      .catch((err) => console.error(err))
+      .catch((err) => Alert.alert(err))
       .finally(() => setLoading(false));
   };
 
@@ -31,7 +31,7 @@ const Karyawan: React.FC = () => {
   useLayoutEffect(handleFetchKaryawan, []);
 
   return (
-    <View style={{ flex: 1,backgroundColor:'#fff'}}>
+    <View style={{ flex: 1,backgroundColor:'#ecf0f1'}}>
       <KaryawanList
         karyawanList={state.karyawan.data}
         refreshControl={refreshControl}

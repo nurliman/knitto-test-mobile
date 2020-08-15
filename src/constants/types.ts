@@ -57,23 +57,35 @@ export interface IAppState {
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 
-export type KaryawanStackParamList = {
-  edit: {
-    karyawanId: number;
+export type RootStackParamList = {
+  KaryawanEdit: {
+    karyawan: IKaryawan;
   };
-  list: undefined;
+  KaryawanList: undefined;
 };
 
-type EditScreenNavigationProp = StackNavigationProp<
-  KaryawanStackParamList,
-  "edit"
+export type KaryawanListScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "KaryawanList"
 >;
 
-type EditScreenRouteProp = RouteProp<KaryawanStackParamList, "edit">;
+export type KaryawanEditScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "KaryawanEdit"
+>;
 
-type Props = {
-  navigation: EditScreenNavigationProp;
-  route: EditScreenRouteProp;
+export type KaryawanListScreenRouteProp = RouteProp<RootStackParamList, "KaryawanList">;
+export type KaryawanEditScreenRouteProp = RouteProp<RootStackParamList, "KaryawanEdit">;
+
+export type KaryawanListScreenProps = {
+  navigation: KaryawanListScreenNavigationProp;
+  route: KaryawanListScreenRouteProp;
 };
+
+export type KaryawanEditScreenProps = {
+  navigation: KaryawanEditScreenNavigationProp;
+  route: KaryawanEditScreenRouteProp;
+};
+
 
 

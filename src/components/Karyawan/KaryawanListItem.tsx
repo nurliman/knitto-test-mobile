@@ -1,23 +1,32 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, GestureResponderHandlers } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  GestureResponderEvent,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Entypo, Foundation as Avatar } from "@expo/vector-icons";
 
-import { IKaryawan } from "../../constants/types";
+import { IKaryawan, KaryawanListScreenNavigationProp } from "../../constants/types";
 
 const KaryawanListItem: React.FC<{ karyawan: IKaryawan; index: number }> = ({
   karyawan,
   index,
-  
 }) => {
 
-  const handlePress =(e:GestureResponderHandlers)=>{
+  const navigation = useNavigation<KaryawanListScreenNavigationProp>();
 
-  }
-  
+  const handlePress = (e: GestureResponderEvent) => {
+    navigation.navigate("KaryawanEdit", { karyawan: karyawan });
+  };
+
   return (
     <TouchableOpacity
       style={{ ...styles.container, marginTop: paddingTop(index) }}
       activeOpacity={0.75}
+      onPress={handlePress}
     >
       <View style={{ ...styles.avatar, backgroundColor: randomColor() }}>
         <Avatar name="torso-business" size={50} color="white" />
@@ -50,8 +59,7 @@ const randomColor = () => {
   return AVATAR_COLOURS[Math.floor(Math.random() * AVATAR_COLOURS.length)];
 };
 
-const paddingTop = (index:number) => (index === 0 ? 15 : 0);
-
+const paddingTop = (index: number) => (index === 0 ? 15 : 0);
 
 const styles = StyleSheet.create({
   container: {
