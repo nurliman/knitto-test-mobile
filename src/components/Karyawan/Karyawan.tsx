@@ -19,7 +19,7 @@ const Karyawan: React.FC = () => {
     setLoading(true);
     fetchKaryawan(state.karyawan.filter)
       .then((data) => dispatch(setKaryawanList(data)))
-      .catch((err) => Alert.alert(err))
+      .catch((err) => console.log(err))
       .finally(() => setLoading(false));
   };
 

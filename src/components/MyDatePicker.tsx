@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect, useCallback } from "react";
 import {
   TouchableOpacity,
   Platform,
@@ -16,15 +16,18 @@ const MyDatePicker: React.FC<
     label: string;
     value?: Date;
     initialValue?: Date;
-    onDateChange?: (date: Date) => void;
+    onChangeDate?: (date: Date) => void;
   }
 > = (props) => {
-  const setD8 = (v?: Date | string | number) => setDate(v ? d8(v) : d8);
+  const setD8 = (v?: Date | string | number) => {
+    const dateToUpdate = v ? d8(v) : d8();
+    props.onChangeDate && props.onChangeDate(dateToUpdate);
+    return setDate(dateToUpdate);
+  };
   const initialValue = props.initialValue || props.value || d8();
 
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(d8(initialValue));
-  const [text, setText] = useState(loclStr(initialValue));
 
   const datePickHandler = (e: DatePickEvent, selectedDate?: Date) => {
     const currentDate = selectedDate || date;
@@ -32,13 +35,8 @@ const MyDatePicker: React.FC<
     setD8(currentDate);
   };
 
-  useEffect(() => {
-    setText(loclStr(date));
-    props.onDateChange && props.onDateChange(date);
-  }, [date]);
-
-  useEffect(() => {
-    setD8(props.value || date || d8());
+  useLayoutEffect(() => {
+    setDate(d8(props.value) || date || d8());
   }, [props.value]);
 
   return (
@@ -51,7 +49,7 @@ const MyDatePicker: React.FC<
         <MyInputText
           {...props}
           editable={false}
-          value={text}
+          value={loclStr(date)}
           label={props.label}
         />
       </TouchableOpacity>

@@ -9,17 +9,22 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Entypo, Foundation as Avatar } from "@expo/vector-icons";
 
-import { IKaryawan, KaryawanListScreenNavigationProp } from "../../constants/types";
+import {
+  IKaryawan,
+  KaryawanListScreenNavigationProp,
+} from "../../constants/types";
 
 const KaryawanListItem: React.FC<{ karyawan: IKaryawan; index: number }> = ({
   karyawan,
   index,
 }) => {
-
   const navigation = useNavigation<KaryawanListScreenNavigationProp>();
 
   const handlePress = (e: GestureResponderEvent) => {
-    navigation.navigate("KaryawanEdit", { karyawan: karyawan });
+    const tanggal_masuk = new Date(karyawan.tanggal_masuk).toISOString();
+    navigation.navigate("KaryawanEdit", {
+      karyawan: { ...karyawan, tanggal_masuk },
+    });
   };
 
   return (

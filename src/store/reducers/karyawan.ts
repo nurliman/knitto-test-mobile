@@ -4,6 +4,7 @@ import {
   CREATE_KARYAWAN,
   SET_KARYAWAN_LIST,
   SET_FILTER_DATE,
+  UPDATE_KARYAWAN,
 } from "../../constants/types";
 
 export default function karyawanReducer(
@@ -29,7 +30,31 @@ export default function karyawanReducer(
         filter: action.payload.filterDate,
       };
 
+    case UPDATE_KARYAWAN:
+      return {
+        ...state,
+        data: updateObjectInArray(state.data, action.payload.karyawan),
+      };
+
     default:
       return state;
   }
+}
+
+type objectWithId = { id: number } & any;
+function updateObjectInArray(array: any[], newItem: objectWithId): any[] {
+  const newItemIndex = array.findIndex((oldData) => oldData.id === newItem.id);
+
+  if (!newItemIndex) return array;
+
+  return array.map((item, index) => {
+    if (index !== newItemIndex) {
+      return item;
+    }
+
+    return {
+      ...item,
+      ...newItem,
+    };
+  });
 }

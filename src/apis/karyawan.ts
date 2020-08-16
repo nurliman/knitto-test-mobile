@@ -20,3 +20,12 @@ export const fetchKaryawan = (filterDate: FilterDate) => {
     return response.data;
   });
 };
+
+export const editKaryawan = (karyawan:IKaryawan)=>{
+  let url = HOST + "/api/karyawan/" + karyawan.id;
+  return axios.put(url,{
+    nama:karyawan.nama,
+    jabatan:karyawan.jabatan,
+    tanggal_masuk:karyawan.tanggal_masuk
+  },{ timeout: 5000 })
+}

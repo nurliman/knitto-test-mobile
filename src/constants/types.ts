@@ -20,6 +20,7 @@ export type FilterDate = {
 export const CREATE_KARYAWAN = "@karyawan/CREATE_KARYAWAN";
 export const SET_KARYAWAN_LIST = "@karyawan/SET_KARYAWAN_LIST ";
 export const SET_FILTER_DATE = "@karyawan/SET_FILTER_DATE";
+export const UPDATE_KARYAWAN = "@karyawan/UPDATE_KARYAWAN";
 
 interface SetFilterDateRequest {
   type: typeof SET_FILTER_DATE;
@@ -36,10 +37,16 @@ interface SetKaryawanListRequest {
   payload: { karyawanList: KaryawanList };
 }
 
+interface UpdateKaryawanRequest {
+  type: typeof UPDATE_KARYAWAN;
+  payload: { karyawan: IKaryawan };
+}
+
 export type KaryawanActionsTypes =
   | CreateKaryawanRequest
   | SetKaryawanListRequest
-  | SetFilterDateRequest;
+  | SetFilterDateRequest
+  | UpdateKaryawanRequest;
 
 export function setKaryawanList(
   karyawanList: KaryawanList
@@ -47,6 +54,13 @@ export function setKaryawanList(
   return {
     type: SET_KARYAWAN_LIST,
     payload: { karyawanList },
+  };
+}
+
+export function updateKaryawan(karyawan: IKaryawan): KaryawanActionsTypes {
+  return {
+    type: UPDATE_KARYAWAN,
+    payload: { karyawan },
   };
 }
 
@@ -59,7 +73,7 @@ import { RouteProp } from "@react-navigation/native";
 
 export type RootStackParamList = {
   KaryawanEdit: {
-    karyawan: IKaryawan;
+    karyawan: Omit<IKaryawan,"tanggal_masuk"> & {tanggal_masuk:string};
   };
   KaryawanList: undefined;
 };
@@ -74,8 +88,14 @@ export type KaryawanEditScreenNavigationProp = StackNavigationProp<
   "KaryawanEdit"
 >;
 
-export type KaryawanListScreenRouteProp = RouteProp<RootStackParamList, "KaryawanList">;
-export type KaryawanEditScreenRouteProp = RouteProp<RootStackParamList, "KaryawanEdit">;
+export type KaryawanListScreenRouteProp = RouteProp<
+  RootStackParamList,
+  "KaryawanList"
+>;
+export type KaryawanEditScreenRouteProp = RouteProp<
+  RootStackParamList,
+  "KaryawanEdit"
+>;
 
 export type KaryawanListScreenProps = {
   navigation: KaryawanListScreenNavigationProp;
@@ -86,6 +106,3 @@ export type KaryawanEditScreenProps = {
   navigation: KaryawanEditScreenNavigationProp;
   route: KaryawanEditScreenRouteProp;
 };
-
-
-
