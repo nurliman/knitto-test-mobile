@@ -5,6 +5,7 @@ import {
   SET_KARYAWAN_LIST,
   SET_FILTER_DATE,
   UPDATE_KARYAWAN,
+  DELETE_KARYAWAN,
 } from "../../constants/types";
 
 export default function karyawanReducer(
@@ -36,19 +37,25 @@ export default function karyawanReducer(
         data: updateObjectInArray(state.data, action.payload.karyawan),
       };
 
+    case DELETE_KARYAWAN:
+      return {
+        ...state,
+        data: state.data.filter(
+          (item) => item.id !== action.payload.karyawan.id
+        ),
+      };
     default:
       return state;
   }
 }
 
 type objectWithId = { id: number } & any;
-function updateObjectInArray(array: any[], newItem: objectWithId): any[] {
-  const newItemIndex = array.findIndex((oldData) => oldData.id === newItem.id);
-
-  if (!newItemIndex) return array;
-
+function updateObjectInArray(
+  array: objectWithId[],
+  newItem: objectWithId
+): any[] {
   return array.map((item, index) => {
-    if (index !== newItemIndex) {
+    if (array[index].id !== newItem.id) {
       return item;
     }
 

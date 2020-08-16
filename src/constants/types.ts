@@ -21,6 +21,7 @@ export const CREATE_KARYAWAN = "@karyawan/CREATE_KARYAWAN";
 export const SET_KARYAWAN_LIST = "@karyawan/SET_KARYAWAN_LIST ";
 export const SET_FILTER_DATE = "@karyawan/SET_FILTER_DATE";
 export const UPDATE_KARYAWAN = "@karyawan/UPDATE_KARYAWAN";
+export const DELETE_KARYAWAN = "@karyawan/DELETE_KARYAWAN";
 
 interface SetFilterDateRequest {
   type: typeof SET_FILTER_DATE;
@@ -42,11 +43,17 @@ interface UpdateKaryawanRequest {
   payload: { karyawan: IKaryawan };
 }
 
+interface DeleteKaryawanRequest {
+  type: typeof DELETE_KARYAWAN;
+  payload: { karyawan: IKaryawan };
+}
+
 export type KaryawanActionsTypes =
   | CreateKaryawanRequest
   | SetKaryawanListRequest
   | SetFilterDateRequest
-  | UpdateKaryawanRequest;
+  | UpdateKaryawanRequest
+  | DeleteKaryawanRequest;
 
 export function setKaryawanList(
   karyawanList: KaryawanList
@@ -64,6 +71,13 @@ export function updateKaryawan(karyawan: IKaryawan): KaryawanActionsTypes {
   };
 }
 
+export function deleteKaryawan(karyawan: IKaryawan): KaryawanActionsTypes {
+  return {
+    type: DELETE_KARYAWAN,
+    payload: { karyawan },
+  };
+}
+
 export interface IAppState {
   karyawan: IKaryawanState;
 }
@@ -73,7 +87,7 @@ import { RouteProp } from "@react-navigation/native";
 
 export type RootStackParamList = {
   KaryawanEdit: {
-    karyawan: Omit<IKaryawan,"tanggal_masuk"> & {tanggal_masuk:string};
+    karyawan: Omit<IKaryawan, "tanggal_masuk"> & { tanggal_masuk: string };
   };
   KaryawanList: undefined;
 };

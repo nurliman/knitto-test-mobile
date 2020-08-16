@@ -29,3 +29,8 @@ export const editKaryawan = (karyawan:IKaryawan)=>{
     tanggal_masuk:karyawan.tanggal_masuk
   },{ timeout: 5000 })
 }
+
+export const removeKaryawan = (karyawan:IKaryawan)=>{
+  let url = HOST + "/api/karyawan/" + karyawan.id;
+  return axios.delete(url,{ timeout: 5000 })
+}

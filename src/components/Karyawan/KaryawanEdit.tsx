@@ -16,10 +16,11 @@ import {
   KaryawanEditScreenProps,
   IKaryawan,
   updateKaryawan,
+  deleteKaryawan,
 } from "../../constants/types";
 
 import { AppContext } from "../../store";
-import { editKaryawan } from "../../apis/karyawan";
+import { editKaryawan, removeKaryawan } from "../../apis/karyawan";
 
 const KaryawanEdit: React.FC<{} & KaryawanEditScreenProps> = ({
   route,
@@ -30,9 +31,10 @@ const KaryawanEdit: React.FC<{} & KaryawanEditScreenProps> = ({
     tanggal_masuk: new Date(route.params.karyawan.tanggal_masuk),
   });
   const { state, dispatch } = useContext(AppContext);
-  const [loading, setLoading] = useState(false);
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
-  const changeHandler = (value: string|Date, name: keyof typeof form) => {
+  const changeHandler = (value: string | Date, name: keyof typeof form) => {
     setForm({ ...form, [name]: value });
   };
 
@@ -42,8 +44,8 @@ const KaryawanEdit: React.FC<{} & KaryawanEditScreenProps> = ({
       (oldData) => oldData.id === id
     );
     if (oldKaryawan === form) return;
-    setLoading(true);
     let status: number;
+    setUpdateLoading(true);
     editKaryawan(form)
       .then((response) => {
         if (response.status === 200) {
@@ -53,8 +55,25 @@ const KaryawanEdit: React.FC<{} & KaryawanEditScreenProps> = ({
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        setLoading(false);
+        setUpdateLoading(false);
         status === 200 && navigation.goBack();
+      });
+  };
+
+  const deleteHandler = (e: GestureResponderEvent) => {
+    let status: number;
+    setDeleteLoading(true);
+    removeKaryawan(form)
+      .then((response) => {
+        if (response.status === 204) {
+          status = response.status;
+          dispatch(deleteKaryawan(form));
+        }
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setDeleteLoading(false);
+        status === 204 && navigation.goBack();
       });
   };
 
@@ -88,14 +107,16 @@ const KaryawanEdit: React.FC<{} & KaryawanEditScreenProps> = ({
         <TouchableOpacity
           style={{
             ...styles.applyButtonContainer,
-            backgroundColor: loading ? "#636e72" : "#00b894",
+            backgroundColor: updateLoading
+              ? "#636e72"
+              : styles.applyButtonContainer.backgroundColor,
           }}
           activeOpacity={0.7}
           onPress={applyEditHandler}
-          disabled={loading}
+          disabled={deleteLoading || updateLoading}
         >
           <View>
-            {loading ? (
+            {updateLoading ? (
               <ActivityIndicator color="white" size="large" />
             ) : (
               <Text style={styles.buttonText}>APPLY</Text>
@@ -103,12 +124,21 @@ const KaryawanEdit: React.FC<{} & KaryawanEditScreenProps> = ({
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          disabled={loading}
-          style={styles.delButtonContainer}
+          style={{
+            ...styles.delButtonContainer,
+            backgroundColor: deleteLoading
+              ? "#636e72"
+              : styles.delButtonContainer.backgroundColor,
+          }}
           activeOpacity={0.7}
-          onPress={() => {}}
+          onPress={deleteHandler}
+          disabled={deleteLoading || updateLoading}
         >
-          <DelIcon name="trash" size={22} color="#fff" />
+          {deleteLoading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <DelIcon name="trash" size={22} color="#fff" />
+          )}
         </TouchableOpacity>
       </View>
     </>
